@@ -62,6 +62,8 @@ const MainPage = () => {
   	function handleDragEnd(event:any) {
     	const {over,active} = event;
 		
+		console.log(active);
+		
 		if(over && active.id === 'draggable1') {
 			const display = panels.filter(item => item.id === 'panel0')
 			setSortableItem([...sortableItem, ...display])

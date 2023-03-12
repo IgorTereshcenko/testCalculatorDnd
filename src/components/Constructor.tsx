@@ -1,6 +1,7 @@
 import '../style/constructor.scss';
 import {FC} from 'react';
 import { IPanels } from '../types/dndTypes';
+import { Draggable } from './Draggable';
 import {
     DndContext, 
     closestCenter,
@@ -24,6 +25,8 @@ interface ConstructorProps {
     setSortableItem: React.Dispatch<React.SetStateAction<IPanels[]>>
 }
 
+
+
 const Constructor:FC<ConstructorProps> = ({sortableItem,setSortableItem}) => {
 
     console.log(sortableItem)
@@ -36,38 +39,42 @@ const Constructor:FC<ConstructorProps> = ({sortableItem,setSortableItem}) => {
     );
 
 
-   function handleDragEnd(event:any) {
-        
-        const {active, over} = event;
-       
+    function handleDragEnd(event: any) {
+        const { active, over } = event;
+
         if (active.id !== over.id) {
-            setSortableItem(sortableItem => {
-                const oldIndex = sortableItem.findIndex(item => item.id === active.id);
-                const newIndex = sortableItem.findIndex(item => item.id === over.id);
-                return arrayMove(sortableItem,oldIndex,newIndex)
-            })  
-        } 
+            setSortableItem((sortableItem) => {
+                const oldIndex = sortableItem.findIndex((item) => item.id === over.id);
+                const newIndex = sortableItem.findIndex((item) => item.id === active.id);
+                return arrayMove(sortableItem, oldIndex, newIndex);
+            });
+        }
     }
     
     return (
         <div className="constructor">
-            <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}>
+            {!sortableItem.length ? 
+                <div>
+                    <span>Перетащите сюда</span>
+                    <span>Любой элемент из левой панели</span>
+                </div>
+                :
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                     <SortableContext items={sortableItem} strategy={verticalListSortingStrategy}>
-                    <div className="panels">
-                        {sortableItem.map((item) => (
-                        <div className={item.id === 'panel0' ? 'panel0' : item.id === 'panel1' ? 'panel1' : item.id === 'panel2' ? 'panel2' : 'panel3'}>
-                            {item.buttons.map(btn => (
-                                <SortableItem id={item.id} name={btn.text} />
+                        <div className="panels">
+                            {sortableItem.map((item) => (
+                                <SortableItem id={item.id}>
+                                    <div className={item.id === 'panel0' ? 'panel0' : item.id === 'panel1' ? 'panel1' : item.id === 'panel2' ? 'panel2' : 'panel3'}>
+                                        {item.buttons.map((btn) => (
+                                            <div>{btn.text}</div>
+                                        ))}
+                                    </div>    
+                                </SortableItem>
                             ))}
                         </div>
-                        ))}
-                    </div> 
-                    </SortableContext>    
-            </DndContext>
-        </div>    
+                    </SortableContext>
+            </DndContext>}   
+        </div>
       
     )
 }

@@ -8,7 +8,7 @@ export function Droppable(props:any) {
   });
   
   const style = {
-    color: isOver ? 'green' : undefined,
+    background: isOver ? '#F0F9FF' : undefined,
   };
   
   

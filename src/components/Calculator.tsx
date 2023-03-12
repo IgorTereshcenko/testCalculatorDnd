@@ -2,12 +2,20 @@ import {Draggable} from './Draggable';
 import {FC} from 'react'
 import { IPanels } from '../types/dndTypes';
 import '../style/calculator.scss';
+import {useState, useRef} from 'react'
 
 interface calculatorProps {
     panels:IPanels[]
 }
 
 const Calculator:FC<calculatorProps> = ({panels}) => {
+
+    const [display, setDisplay] = useState('');
+    console.log(display)
+
+    const handleButtonClick = (value: string): void => {
+        setDisplay(value);
+      };
 
     return (
         <div className="calculator">
@@ -21,7 +29,9 @@ const Calculator:FC<calculatorProps> = ({panels}) => {
             <Draggable id="draggable2">
                 <div className="calculator__operation">
                     {panels[1].buttons.map(btn =>
-                        <button className='calculator__operationBtns'>{btn.text}</button>    
+                        <button
+                            onClick={() => handleButtonClick(btn.text)} 
+                            className='calculator__operationBtns'>{btn.text}</button>    
                     )} 
                 </div>
             </Draggable>

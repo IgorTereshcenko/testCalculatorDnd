@@ -9,16 +9,17 @@ export function SortableItem(props:any) {
     setNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({id: props.id});
   
   const itemStyle = {
     transform: CSS.Transform.toString(transform),
-    transition,
+    transition
   };
 
   return (
     <div ref={setNodeRef} style={itemStyle} {...attributes} {...listeners}>
-        {props.name}
+        {props.children}
     </div>
   );
 }
