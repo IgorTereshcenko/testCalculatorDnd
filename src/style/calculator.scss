@@ -1,0 +1,95 @@
+.calculator {
+    display: flex;
+    gap: 12px;
+    flex-direction: column;
+    &__display {
+        width: 240px;
+        height: 60px;
+        background: #F3F4F6;
+        border-radius: 6px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 4px;
+        font-weight: 800;
+        font-size: 36px;
+        color: #111827;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: grab;
+    }
+    &__operation {
+        width: 240px;
+        height: 56px;
+        background: #FFFFFF;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        cursor: grab;
+    }
+    &__number {
+        width: 240px;
+        height: 224px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        cursor: grab;
+        align-items: center;
+        :nth-child(10) {
+            width: 152px;
+            height: 48px;
+        };
+        :nth-child(11) {
+            width: 72px;
+            height: 48px;
+        }
+    }
+    &__res {
+        width: 240px;
+        height: 72px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: grab;
+    }
+    &__operationBtns {
+        width: 52px;
+        height: 48px;
+        background: #FFFFFF;
+        border: 1px solid #E2E3E5;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        color: #000000;
+        cursor: grab;
+    }
+    &__numberBtns {
+        width: 72px;
+        height: 48px;
+        background: #FFFFFF;
+        border: 1px solid #E2E3E5;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: grab;
+        color: #000000;
+    }
+    &__resBtn {
+        width: 232px;
+        height: 64px;
+        background: #5D5FEF;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 15px;
+        text-align: center;
+        color: #FFFFFF;
+        cursor: grab;
+    }
+
+}

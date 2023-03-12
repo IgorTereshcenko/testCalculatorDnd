@@ -11,14 +11,14 @@ export function SortableItem(props:any) {
     transition,
   } = useSortable({id: props.id});
   
-  const style = {
+  const itemStyle = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        <button {...listeners} {...arguments}>{props.name}</button>
+    <div ref={setNodeRef} style={itemStyle} {...attributes} {...listeners}>
+        {props.name}
     </div>
   );
 }

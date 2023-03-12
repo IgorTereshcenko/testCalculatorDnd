@@ -1,9 +1,10 @@
 import '../style/constructor.scss';
 import {FC} from 'react';
-import { useAppSelector } from '../hooks/redux';
+import { IPanels } from '../types/dndTypes';
 import {
     DndContext, 
     closestCenter,
+    closestCorners,
     KeyboardSensor,
     PointerSensor,
     useSensor,
@@ -18,12 +19,15 @@ import {
 
 import { SortableItem } from './SortableItem';
 
-const Constructor:FC = () => {
+interface ConstructorProps {
+    sortableItem:IPanels[];
+    setSortableItem: React.Dispatch<React.SetStateAction<IPanels[]>>
+}
 
-    const {sortableItem} = useAppSelector(store => store.dndReducer);
+const Constructor:FC<ConstructorProps> = ({sortableItem,setSortableItem}) => {
 
     console.log(sortableItem)
-   
+
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(KeyboardSensor, {
@@ -31,31 +35,39 @@ const Constructor:FC = () => {
         })
     );
 
-  
+
    function handleDragEnd(event:any) {
         
         const {active, over} = event;
        
         if (active.id !== over.id) {
-            const oldIndex = sortableItem.findIndex(item => item.id === active.id);
-            const newIndex = sortableItem.findIndex(item => item.id === over.id);
-            arrayMove(sortableItem,oldIndex,newIndex)
+            setSortableItem(sortableItem => {
+                const oldIndex = sortableItem.findIndex(item => item.id === active.id);
+                const newIndex = sortableItem.findIndex(item => item.id === over.id);
+                return arrayMove(sortableItem,oldIndex,newIndex)
+            })  
         } 
     }
     
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}>
-                <SortableContext items={sortableItem} strategy={verticalListSortingStrategy} >
-                    <div className="constructor">
-                        {sortableItem.map(item =>
-                            <SortableItem id={item.id} name={item.name}/>
-                        )} 
-                    </div>   
-                </SortableContext>        
-        </DndContext>
+        <div className="constructor">
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}>
+                    <SortableContext items={sortableItem} strategy={verticalListSortingStrategy}>
+                    <div className="panels">
+                        {sortableItem.map((item) => (
+                        <div className={item.id === 'panel0' ? 'panel0' : item.id === 'panel1' ? 'panel1' : item.id === 'panel2' ? 'panel2' : 'panel3'}>
+                            {item.buttons.map(btn => (
+                                <SortableItem id={item.id} name={btn.text} />
+                            ))}
+                        </div>
+                        ))}
+                    </div> 
+                    </SortableContext>    
+            </DndContext>
+        </div>    
       
     )
 }

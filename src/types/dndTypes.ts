@@ -1,5 +1,10 @@
+interface Buttons {
+    id:string;
+    text:string;
+}
 
-export interface IDraggable {
-    name: string;
-    id: number;
+
+export interface IPanels {
+    id:string;
+    buttons: Buttons[];
 }

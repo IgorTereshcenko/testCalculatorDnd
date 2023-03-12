@@ -2,53 +2,78 @@ import Calculator from "./Calculator";
 import Constructor from '../components/Constructor';
 import {DndContext} from '@dnd-kit/core';
 import {Droppable} from './Droppable';
-import { IDraggable } from "../types/dndTypes";
-import { useAppDispatch } from "../hooks/redux";
-import { setSortableItem } from "../store/dndSlice";
+import { IPanels } from "../types/dndTypes";
+import { useState } from "react";
+
 
 const MainPage = () => {
 
-	const draggableOperation:IDraggable[] = [
-		{name:'/', id:1},
-		{name:'X', id:1},
-		{name:'-', id:1},
-		{name:'+', id:1}
-	];
+	const panels:IPanels[] = [
+		{
+			id: 'panel0',
+			buttons: [{id: 'button0', text: '0'}],
+		},
+        {
+          id: 'panel1',
+          buttons: [
+            { id: 'button1', text: '/' },
+            { id: 'button2', text: 'X' },
+            { id: 'button3', text: '-' },
+            { id: 'button4', text: '+' },
+          ],
+        },
+        {
+          id: 'panel2',
+          buttons: [
+            { id: 'button5', text: '7' },
+            { id: 'button6', text: '8' },
+            { id: 'button7', text: '9' },
+            { id: 'button8', text: '4' },
+			{ id: 'button9', text: '5' },
+			{ id: 'button10', text: '6' },
+			{ id: 'button11', text: '1' },
+			{ id: 'button12', text: '2' },
+			{ id: 'button13', text: '3' },
+			{ id: 'button14', text: '0' },
+			{ id: 'button11', text: ',' },
+          ],
+        },
+		{
+			id: 'panel3',
+			buttons: [{id: 'button12', text: '='}],
+		}
+		
+      ];
 
-	const draggableNumber:IDraggable[] = [
-		{name:'7', id:2},
-		{name:'8', id:2},
-		{name:'9', id:2},
-		{name:'4', id:2},
-		{name:'5', id:2},
-		{name:'6', id:2},
-		{name:'1', id:2},
-		{name:'2', id:2},
-		{name:'3', id:2},
-		{name:'0', id:2},
-		{name:',', id:2},
-	];
-
-	const dispatch = useAppDispatch();
-
+	const [sortableItem, setSortableItem] = useState<IPanels[]>([]);
+	
     return (
         <DndContext onDragEnd={handleDragEnd}>
             <Calculator 
-				draggableOperation={draggableOperation}
-				draggableNumber={draggableNumber}/>
+				panels={panels}/>
             <Droppable>
-                <Constructor/>
+                <Constructor
+					sortableItem={sortableItem}
+					setSortableItem={setSortableItem}/>
             </Droppable>
         </DndContext>
     )
 
   	function handleDragEnd(event:any) {
     	const {over,active} = event;
-
-		if(over && active.id === 'draggable2') {
-			dispatch(setSortableItem(draggableOperation));
+		
+		if(over && active.id === 'draggable1') {
+			const display = panels.filter(item => item.id === 'panel0')
+			setSortableItem([...sortableItem, ...display])
+		} else if (over && active.id === 'draggable2') {
+			const number = panels.filter(item => item.id === 'panel1')
+			setSortableItem([...sortableItem, ...number])
 		} else if (over && active.id === 'draggable3') {
-			dispatch(setSortableItem(draggableNumber));
+			const operation = panels.filter(item => item.id === 'panel2')
+			setSortableItem([...sortableItem, ...operation])
+		} else if (over && active.id === 'draggable4') {
+			const res = panels.filter(item => item.id === 'panel3')
+			setSortableItem([...sortableItem, ...res])
 		}
   }
   

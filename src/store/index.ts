@@ -1,8 +1,7 @@
 import {combineReducers,configureStore} from '@reduxjs/toolkit';
-import dndReducer from '../store/dndSlice';
 
 const rootReducer = combineReducers({
-    dndReducer
+    
 })
 
 export const setupStore = () => {
